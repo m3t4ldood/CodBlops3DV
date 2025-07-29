@@ -99,6 +99,17 @@ p, label {
     <button onclick="displayKnownWords()">Known Words</button>
     <p id="hints"></p>
     <div id="convertedWords"></div>
+
+    <div class="container">
+        <h2>Add a new word</h2>
+        <form id="addWordForm">
+            <label for="newWord">Word:</label>
+            <input type="text" id="newWord" required>
+            <label for="newAction">Action:</label>
+            <input type="text" id="newAction" required>
+            <button type="submit">Add Word</button>
+        </form>
+    </div>
 </body>
 
     <script>
@@ -209,7 +220,7 @@ document.getElementById("displayButton").addEventListener("click", displayWordLi
 function checkHintsForWord(word) {
     const hintsUnlock = "A.B.C.-.-.F.G.-.-.-.K.-.-.N.-.-.Q.-.S.-.-.-.-.X.-.-.";
     const hintsFirstLetter = "(D)EHI(J)L(M)OPRTUVWYZ";
-    const knownWords = {
+    let knownWords = {
         MANIFEST: "99 Fabrication kits",
         JACKWALL: "unlocks music",
         DREAMLAND: "Extra game mode"
@@ -325,6 +336,15 @@ function getRandomWord() {
     // Return the word at the random index
     return words[randomIndex];
 }
+
+document.getElementById('addWordForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const newWord = document.getElementById('newWord').value.toUpperCase();
+    const newAction = document.getElementById('newAction').value;
+    knownWords[newWord] = newAction;
+    document.getElementById('addWordForm').reset();
+    displayKnownWords();
+});
     </script>
 </body>
 
