@@ -1,331 +1,242 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Black Ops 3: Code Tester</title>
-    <style>
-        body {
-    background-color: rgb(3, 3, 54);
-  color: rgb(185, 185, 185);
-  font-weight: bold;
-    font-family: Arial, sans-serif;
-    text-align: center;
-    margin: 0;
-    padding: 0;
-}
-h1, h2, h3, h4, h5, h6 {
-  color: rgb(red, green, blue);
-}
-
-button {
-  background-color: #111111;
-  color: rgb(185, 185, 185);
-  border: 2px rgb(185, 185, 185);
-  font-weight: bold;
-}
-
-button:hover {
-  background-color: gray;
-  color: darkgray;
-}
-
-input[type="text"] {
-  background-color: #111111;
-  color: rgb(185, 185, 185);
-  border: 2px solid rgb(185, 185, 185);
-  font-weight: bold;
-}
-
-p, label {
-    background-color: #111111;
-  margin: 10px 0;
-}
-
-.container {
-    
-    max-width: 400px;
-    margin: 20px auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-}
-
-    </style>
-</head>
-
-<body><h1>Black Ops 3: Code Tester</h1>
-    <label for="inputText">Enter a word:</label>
-    <br>
-    <button onclick="displayRandomWord()">Random Word</button>
-    <input type="text" id="inputText" />
-    <button onclick="convertAndDisplay()">Convert</button><br>
-   <button onclick="enterLetter('A')">A</button>
-<button onclick="enterLetter('B')">B</button>
-<button onclick="enterLetter('C')">C</button>
-<button onclick="enterLetter('D')">D</button>
-<button onclick="enterLetter('E')">E</button>
-<button onclick="enterLetter('F')">F</button>
-<button onclick="enterLetter('G')">G</button><br>
-<button onclick="enterLetter('H')">H</button>
-<button onclick="enterLetter('I')">I</button>
-<button onclick="enterLetter('J')">J</button>
-<button onclick="enterLetter('K')">K</button>
-<button onclick="enterLetter('L')">L</button>
-<button onclick="enterLetter('M')">M</button>
-<button onclick="enterLetter('N')">N</button><br>
-<button onclick="enterLetter('O')">O</button>
-<button onclick="enterLetter('P')">P</button>
-<button onclick="enterLetter('Q')">Q</button>
-<button onclick="enterLetter('R')">R</button>
-<button onclick="enterLetter('S')">S</button>
-<button onclick="enterLetter('T')">T</button>
-<button onclick="enterLetter('U')">U</button><br>
-<button onclick="enterLetter('V')">V</button>
-<button onclick="enterLetter('W')">W</button>
-<button onclick="enterLetter('X')">X</button>
-<button onclick="enterLetter('Y')">Y</button>
-<button onclick="enterLetter('Z')">Z</button><br>
-    <p id="result"></p>
-    
-    <br>
-    <button id="displayButton">Display Word List</button>
-    <br>
-    <button onclick="displayPossibleLetters()">Possible Letters</button>
-    <br>
-    <button onclick="displayFirstLetter()">First Letter of Potential Words</button>
-    <br>
-    <button onclick="displayKnownWords()">Known Words</button>
-    <p id="hints"></p>
-    <div id="convertedWords"></div>
-</body>
-
-    <script>
-        let convertedWords = []; // Array to store the converted words
-
-function enterLetter(letter) {
-    var inputText = document.getElementById("inputText");
-    inputText.value += letter;
-}
-
-function calculateWordValue(word) {
-    let total = 0;
-    for (let i = 0; i < word.length; i++) {
-        const charCode = word.charCodeAt(i);
-        if (charCode >= 65 && charCode <= 90) { // Check if it's a capital letter (A-Z)
-            total += charCode - 64; // Convert letter to number (A=1, B=2, ...)
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Black Ops 3: Code Tester</title>
+  <style>
+    body {
+      background-color: rgb(3, 3, 54);
+      color: rgb(185, 185, 185);
+      font-weight: bold;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
     }
-    return total;
-}
 
+    h1, h2 {
+      color: lightgray;
+    }
 
-function convertAndDisplay() {
-    const inputText = document.getElementById('inputText').value;
-    const wordValue = calculateWordValue(inputText.toUpperCase());
-    document.getElementById('result').innerText = `Converted word: ${inputText}, Word value: ${wordValue}`;
+    button {
+      background-color: #111111;
+      color: rgb(185, 185, 185);
+      border: 2px solid rgb(185, 185, 185);
+      font-weight: bold;
+      margin: 2px;
+      cursor: pointer;
+    }
 
-    // Add the converted word to the array
-    convertedWords.push(inputText);
+    button:hover {
+      background-color: gray;
+      color: darkgray;
+    }
 
-    // Update the list of converted words
-    displayConvertedWords();
-}
+    input[type="text"] {
+      background-color: #111111;
+      color: rgb(185, 185, 185);
+      border: 2px solid rgb(185, 185, 185);
+      font-weight: bold;
+      margin: 4px;
+    }
 
-function fillMissingLetters(words) {
-    const filledWords = [];
+    p, label {
+      background-color: #111111;
+      margin: 10px 0;
+    }
 
-    words.forEach(word => {
-        let filledWord = word;
-        // This switch statement is unnecessary, consider removing it
-        filledWords.push(filledWord);
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      background-color: #222;
+      margin: 4px 0;
+      padding: 4px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Black Ops 3: Code Tester</h1>
+
+  <label for="inputText">Enter a word:</label><br>
+  <button onclick="displayRandomWord()">Random Word</button>
+  <input type="text" id="inputText" />
+  <button onclick="convertAndDisplay()">Convert</button><br>
+
+  <!-- Letter buttons -->
+  <div>
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('').forEach(letter => {
+      document.write(`<button onclick="enterLetter('${letter}')">${letter}</button>`);
     });
+  </div>
 
-    return filledWords;
-}
+  <p id="result"></p>
+  <br>
+  <button id="displayButton">Display Word List</button>
+  <br>
+  <button onclick="displayPossibleLetters()">Possible Letters</button>
+  <br>
+  <button onclick="displayFirstLetter()">First Letter of Potential Words</button>
+  <br>
+  <button onclick="displayKnownWords()">Known Words</button>
+  <p id="hints"></p>
+  <div id="convertedWords"></div>
 
-function displayWordList() {
-    const words = [
-        "Manifest",
-        "Dreamland",
-        "Jackwall",
-        "BlackOps",
-        "Terminal",
-        "SafeHouse",
-        "Prometheus",
-        "Krueger",
-        "Corvus",
-        "Collect",
-        "UdderChaos",
-        "Omniverse",
-        "Emblems",
-        "Calling",
-        "Gallery",
-        "Cutscene",
-        "Videos",
-        "Tracks",
-        "Browser",
-        "DeadOps",
-        "Arcade",
-        "Codes",
-        "Taylor",
-        "Team",
-        "DNI",
-        "Insertion",
-        "CIA",
-        "Dossier",
-        "TheUnmarkedMan",
-        "Jaxiplanet",
-        "Thread",
-        "Count",
-        "Omnipedia",
-        "Articles",
-        "Blogs",
-        "Weapons",
-        "Vehicles",
-        "Robotics",
-        "History",
-        "Project",
-        "Chaos",
-        "Fiction",
-        "Real",
-        "News",
-        "Weapons",
-        "Vehicles",
-        "Robotics",
-        "History",
-        "Project",
-        "Chaos"
-    ];
+  <hr>
 
-    const hintsElement = document.getElementById("hints");
-    hintsElement.innerText = words.join("\n");
-}
+  <h2>Add/Edit Word Meaning</h2>
+  <input type="text" id="newWord" placeholder="Enter word (e.g., MANIFEST)" />
+  <input type="text" id="wordMeaning" placeholder="What does it do?" />
+  <button onclick="addOrUpdateWord()">Add / Update</button>
+  <button onclick="clearKnownWords()">Clear All Saved Words</button>
+  <p id="editStatus"></p>
+  <div id="knownWordsList"></div>
 
-// Add event listener to the button
-document.getElementById("displayButton").addEventListener("click", displayWordList);
-
-function checkHintsForWord(word) {
-    const hintsUnlock = "A.B.C.-.-.F.G.-.-.-.K.-.-.N.-.-.Q.-.S.-.-.-.-.X.-.-.";
-    const hintsFirstLetter = "(D)EHI(J)L(M)OPRTUVWYZ";
-    const knownWords = {
-        MANIFEST: "99 Fabrication kits",
-        JACKWALL: "unlocks music",
-        DREAMLAND: "Extra game mode"
+  <script>
+    let convertedWords = [];
+    let knownWords = JSON.parse(localStorage.getItem("knownWords")) || {
+      MANIFEST: "99 Fabrication kits",
+      JACKWALL: "unlocks music",
+      DREAMLAND: "Extra game mode"
     };
 
-    const wordUpperCase = word.toUpperCase();
-    let hint = '';
-
-    if (hintsUnlock.includes(wordUpperCase)) {
-        hint = "Possible letters that unlock stuff";
-    } else if (hintsFirstLetter.includes(wordUpperCase)) {
-        hint = "unlocks...?";
-    } else if (knownWords[wordUpperCase]) {
-        hint = knownWords[wordUpperCase];
+    function enterLetter(letter) {
+      var inputText = document.getElementById("inputText");
+      inputText.value += letter;
     }
 
-    return hint;
-}
+    function calculateWordValue(word) {
+      let total = 0;
+      for (let i = 0; i < word.length; i++) {
+        const charCode = word.charCodeAt(i);
+        if (charCode >= 65 && charCode <= 90) {
+          total += charCode - 64;
+        }
+      }
+      return total;
+    }
 
-function displayPossibleLetters() {
-    const hintsElement = document.getElementById("hints");
-    hintsElement.innerText = "Possible letters that unlock stuff:\nA.B.C.-.-.F.G.-.-.-.K.-.-.N.-.-.Q.-.S.-.-.-.-.X.-.-.";
-}
+    function convertAndDisplay() {
+      const inputText = document.getElementById('inputText').value;
+      const wordValue = calculateWordValue(inputText.toUpperCase());
+      document.getElementById('result').innerText = `Converted word: ${inputText}, Word value: ${wordValue}`;
+      convertedWords.push(inputText);
+      displayConvertedWords();
+    }
 
-function displayKnownWords() {
-    const hintsElement = document.getElementById("hints");
-    hintsElement.innerText = "Known words:\nMANIFEST = 99 Fabrication kits\nJACKWALL = unlocks music\nDREAMLAND = Extra game mode";
-}
-
-function displayRandomWord() {
-    const randomWord = getRandomWord();
-    document.getElementById('result').innerText = `Random word: ${randomWord}`;
-}
-
-function displayFirstLetter() {
-    const hintsElement = document.getElementById("hints");
-    hintsElement.innerText = "First letter of potential words:\n(D)EHI(J)L(M)OPRTUVWYZ";
-}
-
-function displayConvertedWords() {
-    const convertedWordsElement = document.getElementById("convertedWords");
-    convertedWordsElement.innerHTML = ""; // Clear previous list
-
-    if (convertedWords.length > 0) {
+    function displayConvertedWords() {
+      const convertedWordsElement = document.getElementById("convertedWords");
+      convertedWordsElement.innerHTML = "";
+      if (convertedWords.length > 0) {
         const list = document.createElement("ul");
         convertedWords.forEach(word => {
-            const listItem = document.createElement("li");
-            const hint = checkHintsForWord(word);
-            listItem.textContent = `${word} - ${hint}`;
-            list.appendChild(listItem);
+          const listItem = document.createElement("li");
+          const hint = checkHintsForWord(word);
+          listItem.textContent = `${word} - ${hint}`;
+          list.appendChild(listItem);
         });
         convertedWordsElement.appendChild(list);
+      }
     }
-}
 
-function getRandomWord() {
-    const words = [
-        "Manifest",
-        "Dreamland",
-        "Jackwall",
-        "BlackOps",
-        "Terminal",
-        "SafeHouse",
-        "Prometheus",
-        "Krueger",
-        "Corvus",
-        "Collect",
-        "UdderChaos",
-        "Omniverse",
-        "Emblems",
-        "Calling",
-        "Gallery",
-        "Cutscene",
-        "Videos",
-        "Tracks",
-        "Browser",
-        "DeadOps",
-        "Arcade",
-        "Codes",
-        "Taylor",
-        "Team",
-        "DNI",
-        "Insertion",
-        "CIA",
-        "Dossier",
-        "TheUnmarkedMan",
-        "Jaxiplanet",
-        "Thread",
-        "Count",
-        "Omnipedia",
-        "Articles",
-        "Blogs",
-        "Weapons",
-        "Vehicles",
-        "Robotics",
-        "History",
-        "Project",
-        "Chaos",
-        "Fiction",
-        "Real",
-        "News",
-        "Weapons",
-        "Vehicles",
-        "Robotics",
-        "History",
-        "Project",
-        "Chaos"
-    ];
+    function displayWordList() {
+      const words = [
+        "Manifest", "Dreamland", "Jackwall", "BlackOps", "Terminal", "SafeHouse", "Prometheus", "Krueger", "Corvus",
+        "Collect", "UdderChaos", "Omniverse", "Emblems", "Calling", "Gallery", "Cutscene", "Videos", "Tracks", "Browser",
+        "DeadOps", "Arcade", "Codes", "Taylor", "Team", "DNI", "Insertion", "CIA", "Dossier", "TheUnmarkedMan",
+        "Jaxiplanet", "Thread", "Count", "Omnipedia", "Articles", "Blogs", "Weapons", "Vehicles", "Robotics", "History",
+        "Project", "Chaos", "Fiction", "Real", "News"
+      ];
+      document.getElementById("hints").innerText = words.join("\n");
+    }
 
-    // Generate a random index within the range of the array
-    const randomIndex = Math.floor(Math.random() * words.length);
+    document.getElementById("displayButton").addEventListener("click", displayWordList);
 
-    // Return the word at the random index
-    return words[randomIndex];
-}
-    </script>
+    function checkHintsForWord(word) {
+      const hintsUnlock = "A.B.C.-.-.F.G.-.-.-.K.-.-.N.-.-.Q.-.S.-.-.-.-.X.-.-.";
+      const hintsFirstLetter = "(D)EHI(J)L(M)OPRTUVWYZ";
+      const wordUpperCase = word.toUpperCase();
+      if (knownWords[wordUpperCase]) return knownWords[wordUpperCase];
+      if (hintsUnlock.includes(wordUpperCase)) return "Possible unlock letter";
+      if (hintsFirstLetter.includes(wordUpperCase)) return "Starts with important letter";
+      return "No known effect";
+    }
+
+    function displayPossibleLetters() {
+      document.getElementById("hints").innerText =
+        "Possible letters that unlock stuff:\nA.B.C.-.-.F.G.-.-.-.K.-.-.N.-.-.Q.-.S.-.-.-.-.X.-.-.";
+    }
+
+    function displayFirstLetter() {
+      document.getElementById("hints").innerText =
+        "First letter of potential words:\n(D)EHI(J)L(M)OPRTUVWYZ";
+    }
+
+    function displayKnownWords() {
+      const hintsElement = document.getElementById("hints");
+      let text = "Known words:\n";
+      for (const [word, meaning] of Object.entries(knownWords)) {
+        text += `${word} = ${meaning}\n`;
+      }
+      hintsElement.innerText = text;
+
+      const listContainer = document.getElementById("knownWordsList");
+      listContainer.innerHTML = "";
+      const ul = document.createElement("ul");
+      for (const [word, meaning] of Object.entries(knownWords)) {
+        const li = document.createElement("li");
+        li.innerHTML = `<strong>${word}</strong>: ${meaning} <button onclick="editWord('${word}')">Edit</button>`;
+        ul.appendChild(li);
+      }
+      listContainer.appendChild(ul);
+    }
+
+    function addOrUpdateWord() {
+      const word = document.getElementById("newWord").value.trim().toUpperCase();
+      const meaning = document.getElementById("wordMeaning").value.trim();
+      if (word && meaning) {
+        knownWords[word] = meaning;
+        localStorage.setItem("knownWords", JSON.stringify(knownWords));
+        document.getElementById("editStatus").innerText = `Saved: ${word} = ${meaning}`;
+        displayKnownWords();
+        displayConvertedWords();
+      } else {
+        document.getElementById("editStatus").innerText = "Please enter both a word and its meaning.";
+      }
+    }
+
+    function editWord(word) {
+      document.getElementById("newWord").value = word;
+      document.getElementById("wordMeaning").value = knownWords[word];
+      document.getElementById("editStatus").innerText = `Editing: ${word}`;
+    }
+
+    function clearKnownWords() {
+      if (confirm("Are you sure you want to delete all saved known words?")) {
+        localStorage.removeItem("knownWords");
+        knownWords = {};
+        displayKnownWords();
+        displayConvertedWords();
+        document.getElementById("editStatus").innerText = "All saved words cleared.";
+      }
+    }
+
+    // Initial display
+    displayKnownWords();
+  </script>
+
 </body>
-
 </html>
